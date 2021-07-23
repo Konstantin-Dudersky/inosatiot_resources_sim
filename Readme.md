@@ -7,7 +7,7 @@
 
 2. Создать файл с настройками inosatiot_cfg.json. Шаблон находится в setup/inosatiot_cfg.json_template.
        
-        $ cp setup/config_example.yaml config.yaml
+        $ cp setup/config_example.yaml ../config_inosatiot_resources_sim.yaml
 
    Прописать в файле настройки.
 

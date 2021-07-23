@@ -6,7 +6,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 import energymeter
 
-with open('config.yaml') as stream:
+with open('../config_inosatiot_resources_sim.yaml') as stream:
     data = yaml.safe_load(stream)
 
 TOKEN = data['influxdb']['token']
@@ -20,7 +20,7 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 energymeters = {}
 
 while True:
-    with open('config.yaml') as stream:
+    with open('../config_inosatiot_resources_sim.yaml') as stream:
         data = yaml.safe_load(stream)
 
     # electricity
