@@ -3,11 +3,11 @@
    
         $ mkdir ~/inosatiot && cd ~/inosatiot && sudo apt install git
         $ git clone https://github.com/Konstantin-Dudersky/inosatiot_resources_sim.git
-        $ cd YOUR-inosatiot_resources_sim
+        $ cd inosatiot_resources_sim
 
 2. Создать файл с настройками inosatiot_cfg.json. Шаблон находится в setup/inosatiot_cfg.json_template.
        
-        $ cp setup/inosatiot_cfg.json_template ../inosatiot_cfg.json
+        $ cp setup/config_example.yaml config.yaml
 
    Прописать в файле настройки.
 
