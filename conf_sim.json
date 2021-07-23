@@ -1,0 +1,18 @@
+{
+  "energymeters": [
+    {
+      "name": "counter1",
+      "ep_imp_increment": "2",
+      "ep_exp_increment": "2",
+      "eq_imp_increment": "2",
+      "eq_exp_increment": "2"
+    },
+    {
+      "name": "counter2",
+      "ep_imp_increment": "1",
+      "ep_exp_increment": "1",
+      "eq_imp_increment": "1",
+      "eq_exp_increment": "1"
+    }
+  ]
+}
