@@ -5,7 +5,7 @@
         $ git clone https://github.com/Konstantin-Dudersky/inosatiot_resources_sim.git
         $ cd inosatiot_resources_sim
 
-2. Создать файл с настройками inosatiot_cfg.json. Шаблон находится в setup/inosatiot_cfg.json_template.
+2. Создать файл с настройками config_inosatiot_resources_sim.yaml. Шаблон находится в setup/inosatiot_cfg.json_template.
        
         $ cp setup/config_example.yaml ../config_inosatiot_resources_sim.yaml
 

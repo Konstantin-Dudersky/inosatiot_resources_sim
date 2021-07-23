@@ -5,7 +5,7 @@ path = os.getcwd()
 
 service = f"""[Unit]
 Description=Simulator
-StartLimitIntervalSec=500
+StartLimitIntervalSec=120
 StartLimitBurst=5
 [Service]
 Restart=on-failure
@@ -14,6 +14,7 @@ Type=simple
 User={getpass.getuser()}
 Group={getpass.getuser()}
 EnvironmentFile=/etc/environment
+WorkingDirectory={path}
 ExecStart={path}/venv/bin/python3 {path}/main.py
 [Install]
 WantedBy=multi-user.target"""
