@@ -1,5 +1,4 @@
-# перед публикацией
-# pip freeze > setup/requirements.txt
+# запустить скрипт перед публикацией на github
 
 echo
 echo "-----> Create requirements.txt:"

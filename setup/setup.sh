@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# collectstatic
-
 echo
 echo "-----> Python version:"
 python3 -V
@@ -28,13 +26,6 @@ python3 setup/create_systemd_service.py
 sudo mv setup/inosatiot_resources_sim.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable inosatiot_resources_sim.service
-
-#echo
-#echo "-----> Share folder:"
-#sudo apt install -y samba
-#sudo smbpasswd -a "$USER"
-#sudo python3 setup/samba.py
-#sudo systemctl restart smbd.service
 
 echo
 echo "-----> Start:"

@@ -17,24 +17,24 @@
         $ chmod +x setup/setup.sh && setup/setup.sh
 
    Что делает скрипт:
-   - Сохраняет в переменную среды путь к файлу inosatiot_cfg.json
    - Обновляет пакеты в системе
    - Устанавливает пакеты python
    - Создает виртуальное окружение venv, скачивает необходимые пакеты
    - Создает сервис systemd, устанавливает автозапуск
-   - Открывает сетевой доступ к папке с отчетами
     
     
 4. После установки можно запустить на выполнение через systemd
    
-        $ sudo systemctl start inosatiot_report.service  // запустить
-        $ sudo systemctl stop inosatiot_report.service  // остановить
-        $ sudo systemctl restart inosatiot_report.service  // перезапустить
-        $ sudo systemctl status inosatiot_report.service  // просмотреть статус
+        $ sudo systemctl start config_inosatiot_resources_sim.service  // запустить
+        $ sudo systemctl stop config_inosatiot_resources_sim.service  // остановить
+        $ sudo systemctl restart config_inosatiot_resources_sim.service  // перезапустить
+        $ sudo systemctl status config_inosatiot_resources_sim.service  // просмотреть статус
 
 # Обновить проект
 - Синхронизировать проект с github (локальные изменения теряются)
    
+        $ cd ~inosat/inosatiot/inosatiot_resources_sim/
         $ git fetch origin && git reset --hard origin/master && git clean -f -d
         $ chmod +x setup/setup.sh && setup/setup.sh
 
+Файл настроек находится в вышестоящей папке, поэтому настройки остаются
