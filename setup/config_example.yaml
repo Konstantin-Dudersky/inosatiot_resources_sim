@@ -1,3 +1,6 @@
+# после изменения насроек, в консоли:
+# sudo systemctl restart inosatiot_resources_sim.service
+
 influxdb:
   url: http://localhost:8086
   org: __org__
