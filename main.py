@@ -17,21 +17,19 @@ BUCKET = config['influxdb']['bucket']
 client = InfluxDBClient(url=URL, token=TOKEN, org=ORG)
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
+# electricity
+
 energymeters = {}
+for e in config['electricity']:
+    label = e['label']
+    if label not in energymeters:
+        energymeters[label] = electricity.SimElectricity(
+            label=label,
+            p_base=e['p']['base'], p_var=e['p']['var'], p_delay=e['p']['delay'],
+            q_base=e['q']['base'], q_var=e['p']['var'], q_delay=e['p']['delay'],
+        )
 
 while True:
-    with open('../config_inosatiot_resources_sim.yaml') as stream:
-        config = yaml.safe_load(stream)
-
-    # electricity
-    for e in config['electricity']:
-        label = e['label']
-        if label not in energymeters:
-            energymeters[label] = electricity.SimElectricity(
-                label=label,
-                p_base=e['p']['base'], p_var=e['p']['var'], p_delay=e['p']['delay'],
-                q_base=e['q']['base'], q_var=e['p']['var'], q_delay=e['p']['delay'],
-            )
 
     record = []
     for key in energymeters:
