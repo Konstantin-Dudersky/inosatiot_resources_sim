@@ -2,6 +2,7 @@
 1. Скачать проект с github
    
         $ mkdir ~/inosatiot && cd ~/inosatiot && sudo apt install git
+        $ cd ~/inosatiot
         $ git clone https://github.com/Konstantin-Dudersky/inosatiot_resources_sim.git
         $ cd inosatiot_resources_sim
 
@@ -33,7 +34,7 @@
 # Обновить проект
 - Синхронизировать проект с github (локальные изменения теряются)
    
-        $ cd ~inosat/inosatiot/inosatiot_resources_sim/
+        $ cd ~/inosatiot/inosatiot_resources_sim/
         $ git fetch origin && git reset --hard origin/master && git clean -f -d
         $ chmod +x setup/setup.sh && setup/setup.sh
 
