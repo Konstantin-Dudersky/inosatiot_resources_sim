@@ -68,7 +68,7 @@ examples:
         print(f"Invalid --mode value, see --help")
         sys.exit()
     elif mode == 'rt':
-        pass
+        print('Start rt mode, press CTRL-C for exit')
     elif mode == 'batch':
         if start is None:
             print(f"Value --start required for batch mode, exit")
@@ -101,6 +101,8 @@ examples:
     client = InfluxDBClient(url=URL, token=TOKEN, org=ORG)
     write_api = client.write_api(write_options=SYNCHRONOUS)
 
+    ts = datetime.datetime.now().astimezone().astimezone(datetime.datetime.now().astimezone().tzinfo)
+
     # electricity
     energymeters = {}
     for e in config['electricity']:
@@ -110,14 +112,16 @@ examples:
                 label=label,
                 p_base=e['p']['base'], p_var=e['p']['var'], p_delay=e['p']['delay'],
                 q_base=e['q']['base'], q_var=e['p']['var'], q_delay=e['p']['delay'],
-                now=datetime.datetime.now() if mode == 'rt' else batch_ts
+                now=ts if mode == 'rt' else batch_ts
             )
 
     if mode == 'rt':
         while True:
+            ts = datetime.datetime.now().astimezone().astimezone(datetime.datetime.now().astimezone().tzinfo)
+
             record = []
             for key in energymeters:
-                record.extend(energymeters[key].cycle(datetime.datetime.now()))
+                record.extend(energymeters[key].cycle(ts))
 
             write_api.write(
                 bucket=BUCKET,
