@@ -10,10 +10,10 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 import electricity
 
 
-def progressBar(current, total, barLength=20):
+def progress_bar(current, total, bar_length=20):
     percent = float(current) * 100 / total
-    arrow = '-' * int(percent / 100 * barLength - 1) + '>'
-    spaces = ' ' * (barLength - len(arrow))
+    arrow = '-' * int(percent / 100 * bar_length - 1) + '>'
+    spaces = ' ' * (bar_length - len(arrow))
 
     print('Progress: [%s%s] %d %%' % (arrow, spaces, percent), end='\r')
 
@@ -131,6 +131,8 @@ examples:
             time.sleep(10)
     elif mode == 'batch':
         while True:
+            progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
+
             record = []
             for i in range(10000):
                 for key in energymeters:
@@ -140,13 +142,13 @@ examples:
                 if batch_ts >= stop:
                     break
 
-            progressBar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), barLength=50)
-
             write_api.write(
                 bucket=BUCKET,
                 record=record
             )
 
             if batch_ts >= stop:
+                progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
+
                 print("\nBatch execution finished")
                 sys.exit()
