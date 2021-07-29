@@ -20,11 +20,13 @@ def progress_bar(current, total, bar_length=20):
 
 if __name__ == "__main__":
 
-    opts, args = getopt.getopt(sys.argv[1:], "hm:b:", ['help', 'mode=', 'start=', 'stop='])
+    opts, args = getopt.getopt(sys.argv[1:], "hm:b:", ['help', 'mode=', 'start=', 'stop=', 'period=', 'bsize='])
 
     mode = None
     start = None
     stop = None
+    period = 10
+    bsize = 1000
 
     for opt, arg in opts:
 
@@ -38,12 +40,19 @@ arguments:
         rt - cyclical execute in real-time
         batch - wtite batch data in range (--start, --stop)
     --start <datetime in isoformat> (required for batch mode):
+        start timestamp
     --stop <datetime in isoformat> (optional for batch mode):
+        stop timestamp. If not specified, the current time is used.
+    --period (optional):
+        Time in seconds between sequential points. If not specified, {period} is used.
+    --bsize (optional):
+        Number of measurements in one packet. Default {bsize}
     
 examples:
     venv/bin/python3 main.py --mode rt
     venv/bin/python3 main.py --mode batch --start 2021-01-01T00:00:00+03:00
-    venv/bin/python3 main.py --mode batch --start 2021-01-01T00:00:00+03:00 --stop 2022-01-01T00:00:00+03:00
+    venv/bin/python3 main.py --mode batch --start 2021-01-01T00:00:00+03:00 --stop 2022-01-01T00:00:00+03:00 \\r
+    --period {period} --bsize {bsize}
 """)
             sys.exit()
         elif opt == '--mode':
@@ -63,6 +72,12 @@ examples:
             except ValueError as ve:
                 print(f'Invalid --stop value:\n{ve}')
                 sys.exit()
+
+        elif opt == '--period':
+            period = int(arg)
+
+        elif opt == '--bsize':
+            bsize = int(arg)
 
     if mode is None:
         print(f"Invalid --mode value, see --help")
@@ -128,17 +143,17 @@ examples:
                 record=record
             )
 
-            time.sleep(10)
+            time.sleep(period)
     elif mode == 'batch':
         while True:
             progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
 
             record = []
-            for i in range(10000):
+            for i in range(bsize):
                 for key in energymeters:
                     record.extend(energymeters[key].cycle(batch_ts))
 
-                batch_ts += datetime.timedelta(seconds=10)
+                batch_ts += datetime.timedelta(seconds=period)
                 if batch_ts >= stop:
                     break
 
