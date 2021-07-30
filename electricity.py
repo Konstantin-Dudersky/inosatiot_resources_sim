@@ -69,10 +69,39 @@ class SimElectricity:
             self._eq_exp += abs(self._q_current) * delta.total_seconds() / 3600
 
         return [
-            Point(self.label).field("p", self._p_current).time(now).tag('datatype', 'float'),
-            Point(self.label).field("q", self._q_current).time(now).tag('datatype', 'float'),
-            Point(self.label).field("ep_imp", int(self._ep_imp)).time(now).tag('datatype', 'int'),
-            Point(self.label).field("ep_exp", int(self._ep_exp)).time(now).tag('datatype', 'int'),
-            Point(self.label).field("eq_imp", int(self._eq_imp)).time(now).tag('datatype', 'int'),
-            Point(self.label).field("eq_exp", int(self._eq_exp)).time(now).tag('datatype', 'int')
+            (Point(self.label)
+             .field("p", self._p_current)
+             .time(now)
+             .tag('datatype', 'float')
+             .tag('aggfunc', 'mean')
+             ),
+            (Point(self.label)
+             .field("q", self._q_current)
+             .time(now)
+             .tag('datatype', 'float')
+             .tag('aggfunc', 'mean')
+             ),
+            (Point(self.label)
+             .field("ep_imp", int(self._ep_imp))
+             .time(now)
+             .tag('datatype', 'int')
+             .tag('aggfunc', 'increase')
+             ),
+            (Point(self.label)
+             .field("ep_exp", int(self._ep_exp))
+             .time(now)
+             .tag('datatype', 'int')
+             .tag('aggfunc', 'increase')
+             ),
+            (Point(self.label)
+             .field("eq_imp", int(self._eq_imp))
+             .time(now)
+             .tag('datatype', 'int')
+             .tag('aggfunc', 'increase')),
+            (Point(self.label)
+             .field("eq_exp", int(self._eq_exp))
+             .time(now)
+             .tag('datatype', 'int')
+             .tag('aggfunc', 'increase')
+             )
         ]

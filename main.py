@@ -103,8 +103,6 @@ examples:
 
     batch_ts = start
 
-    # sys.exit()
-
     with open('../config_inosatiot_resources_sim.yaml') as stream:
         config = yaml.safe_load(stream)
 

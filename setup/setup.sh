@@ -2,7 +2,7 @@
 
 echo
 echo "-----> Python version:"
-python3 -V
+python3.9 -V
 
 echo
 echo "-----> Updating system:"
