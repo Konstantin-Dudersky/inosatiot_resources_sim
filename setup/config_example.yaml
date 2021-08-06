@@ -10,13 +10,31 @@ influxdb:
 electricity:
   - label: counter1
     p:
-      base: 100
-      var: 10
-      delay: 100
+      base: 1000
+      var: 500
+      delay: 300
     q:
-      base: 10
-      var: 2
-      delay: 100
+      base: 100
+      var: 200
+      delay: 120
+  - label: counter2
+    p:
+      base: 1500
+      var: 1000
+      delay: 500
+    q:
+      base: 100
+      var: 200
+      delay: 120
+  - label: counter3
+    p:
+      base: 200
+      var: 30
+      delay: 120
+    q:
+      base: 100
+      var: 200
+      delay: 120
 
 water:
   - water1
