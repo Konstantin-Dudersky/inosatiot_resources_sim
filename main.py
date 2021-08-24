@@ -6,8 +6,13 @@ import time
 import yaml
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
+from loguru import logger
 
 import electricity
+
+logger.remove()
+logger.add(sys.stderr, level='INFO')
+logger.add('logs/log.txt', level='INFO', rotation='5 MB')
 
 
 def progress_bar(current, total, bar_length=20):
@@ -16,6 +21,19 @@ def progress_bar(current, total, bar_length=20):
     spaces = ' ' * (bar_length - len(arrow))
 
     print('Progress: [%s%s] %d %%' % (arrow, spaces, percent), end='\r')
+
+
+def check_bucket(client: InfluxDBClient, bucket_name: str):
+    try:
+        bucket = client.buckets_api().find_bucket_by_name(bucket_name)
+    except Exception as e:
+        logger.critical(e)
+        sys.exit(1)
+
+    if bucket is None:
+        logger.warning(f"bucket {bucket_name} in host {client.url} not found")
+        bucket = client.buckets_api().create_bucket(bucket_name=bucket_name)
+        logger.success(f"bucket {bucket.name} in host {client.url} created")
 
 
 if __name__ == "__main__":
@@ -113,6 +131,8 @@ examples:
 
     client = InfluxDBClient(url=URL, token=TOKEN, org=ORG)
     write_api = client.write_api(write_options=SYNCHRONOUS)
+
+    check_bucket(client, BUCKET)
 
     ts = datetime.datetime.now().astimezone().astimezone(datetime.datetime.now().astimezone().tzinfo)
 
