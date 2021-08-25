@@ -143,9 +143,12 @@ examples:
         if label not in energymeters:
             energymeters[label] = electricity.SimElectricity(
                 label=label,
-                p_base=e['p']['base'], p_var=e['p']['var'], p_delay=e['p']['delay'],
-                q_base=e['q']['base'], q_var=e['p']['var'], q_delay=e['p']['delay'],
-                now=ts if mode == 'rt' else batch_ts
+                now=ts if mode == 'rt' else batch_ts,
+                i=e['i'],
+                v=e['v'],
+                pf=e['pf'],
+                f=e['f'],
+                q_ind=e['q_ind'],
             )
 
     if mode == 'rt':

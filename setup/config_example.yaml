@@ -9,33 +9,20 @@ influxdb:
 
 electricity:
   - label: counter1
-    p:
-      base: 1000
-      var: 500
-      delay: 300
-    q:
-      base: 100
-      var: 200
-      delay: 120
+    i: [1000, 300, 300]
+    v: [230, 10, 20]
+    pf: [0.6, 0.2, 40]
+    f: [50, 0.2, 3000]
+    q_ind: 1
   - label: counter2
-    p:
-      base: 1500
-      var: 1000
-      delay: 500
-    q:
-      base: 100
-      var: 200
-      delay: 120
+    i: [1000, 300, 300]
+    v: [230, 10, 20]
+    pf: [0.6, 0.2, 40]
+    f: [50, 0.2, 3000]
+    q_ind: 1
   - label: counter3
-    p:
-      base: 200
-      var: 30
-      delay: 120
-    q:
-      base: 100
-      var: 200
-      delay: 120
-
-water:
-  - water1
-  - water2
+    i: [1000, 300, 300]
+    v: [230, 10, 20]
+    pf: [0.6, 0.2, 40]
+    f: [50, 0.2, 3000]
+    q_ind: 0
