@@ -16,14 +16,6 @@ logger.add(sys.stderr, level='INFO')
 logger.add('logs/log.txt', level='INFO', rotation='5 MB')
 
 
-def progress_bar(current, total, bar_length=20):
-    percent = float(current) * 100 / total
-    arrow = '-' * int(percent / 100 * bar_length - 1) + '>'
-    spaces = ' ' * (bar_length - len(arrow))
-
-    print('Progress: [%s%s] %d %%' % (arrow, spaces, percent), end='\r')
-
-
 def check_bucket(client: InfluxDBClient, bucket_name: str):
     try:
         bucket = client.buckets_api().find_bucket_by_name(bucket_name)
@@ -169,13 +161,12 @@ examples:
     elif mode == 'batch':
         progress_bar = enlighten.Counter(
             total=int((stop - start).total_seconds()),
-            desc=f"123",#  f"{dst_host_url} | {dst_bucket} |",
-            unit='seconds')
+            desc=f"{start.isoformat()} | {stop.isoformat()} |",
+            unit='hours')
+
+        progress_bar.update(0)
 
         while True:
-            # progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
-
-            progress_bar.update(int((batch_ts - start).total_seconds()))
 
             record = []
             for i in range(bsize):
@@ -192,7 +183,7 @@ examples:
             )
 
             if batch_ts >= stop:
-                progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
+                progress_bar.update(int((batch_ts - start).total_seconds() / 3600))
 
                 print("\nBatch execution finished")
                 sys.exit()
