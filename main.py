@@ -3,6 +3,7 @@ import getopt
 import sys
 import time
 
+import enlighten
 import yaml
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -167,7 +168,13 @@ examples:
             time.sleep(period)
     elif mode == 'batch':
         while True:
-            progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
+            # progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
+
+            progress_bar = enlighten.Counter(
+                total=int((stop - start).total_seconds()),
+                # desc=f"{dst_host_url} | {dst_bucket} |",
+                unit='seconds')
+            progress_bar.update(int((batch_ts - start).total_seconds()))
 
             record = []
             for i in range(bsize):
