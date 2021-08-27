@@ -174,7 +174,7 @@ examples:
                     record.extend(energymeters[key].cycle(batch_ts))
 
                 batch_ts += datetime.timedelta(seconds=period)
-                progress_bar.update(int(datetime.timedelta(seconds=period).total_seconds() / 3600))
+                progress_bar.update(int(datetime.timedelta(seconds=period).total_seconds()))
 
                 if batch_ts >= stop:
                     break
@@ -185,7 +185,6 @@ examples:
             )
 
             if batch_ts >= stop:
-                progress_bar.update(int((stop - start).total_seconds() / 3600))
 
                 print("\nBatch execution finished")
                 sys.exit()
