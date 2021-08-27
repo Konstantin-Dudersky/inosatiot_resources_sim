@@ -167,13 +167,14 @@ examples:
 
             time.sleep(period)
     elif mode == 'batch':
+        progress_bar = enlighten.Counter(
+            total=int((stop - start).total_seconds()),
+            desc=f"123",#  f"{dst_host_url} | {dst_bucket} |",
+            unit='seconds')
+
         while True:
             # progress_bar((batch_ts - start).total_seconds(), (stop - start).total_seconds(), bar_length=50)
 
-            progress_bar = enlighten.Counter(
-                total=int((stop - start).total_seconds()),
-                # desc=f"{dst_host_url} | {dst_bucket} |",
-                unit='seconds')
             progress_bar.update(int((batch_ts - start).total_seconds()))
 
             record = []
