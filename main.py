@@ -6,7 +6,7 @@ import time
 import enlighten
 import yaml
 from influxdb_client import InfluxDBClient
-from influxdb_client.client.write_api import SYNCHRONOUS
+from influxdb_client.client.write_api import ASYNCHRONOUS
 from loguru import logger
 
 import electricity
@@ -123,7 +123,7 @@ examples:
     BUCKET = config['influxdb']['bucket']
 
     client = InfluxDBClient(url=URL, token=TOKEN, org=ORG)
-    write_api = client.write_api(write_options=SYNCHRONOUS)
+    write_api = client.write_api(write_options=ASYNCHRONOUS)
 
     check_bucket(client, BUCKET)
 
@@ -161,8 +161,9 @@ examples:
     elif mode == 'batch':
         progress_bar = enlighten.Counter(
             total=int((stop - start).total_seconds()),
-            desc=f"{start.isoformat()} | {stop.isoformat()} |",
-            unit='hours')
+            desc=f"{start.date().isoformat()} - {stop.date().isoformat()} |",
+            unit='seconds'
+        )
 
         progress_bar.update(0)
 
@@ -179,12 +180,12 @@ examples:
                 if batch_ts >= stop:
                     break
 
-            write_api.write(
+            async_result = write_api.write(
                 bucket=BUCKET,
                 record=record
             )
 
             if batch_ts >= stop:
-
+                async_result.get()
                 print("\nBatch execution finished")
                 sys.exit()
