@@ -187,5 +187,5 @@ examples:
 
             if batch_ts >= stop:
                 async_result.get()
-                print("\nBatch execution finished")
+                logger.success("Batch execution finished !")
                 sys.exit()

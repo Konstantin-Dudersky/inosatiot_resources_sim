@@ -44,7 +44,7 @@ class SimPoint:
 
 class SimElectricity:
     def __init__(self, label,
-                 i: list, v: list, pf: list, f: str, q_ind: str,
+                 i: list, v: list, pf: list, f: list, q_ind: str,
                  now=datetime.datetime.now(), ):
         """
 
@@ -61,6 +61,7 @@ class SimElectricity:
         self._eq_exp = 0.0
 
         self.points = {
+            'f': SimPoint(float(f[0]), float(f[1]), datetime.timedelta(seconds=f[2])),
             'i1': SimPoint(float(i[0]), float(i[1]), datetime.timedelta(seconds=i[2])),
             'i2': SimPoint(float(i[0]), float(i[1]), datetime.timedelta(seconds=i[2])),
             'i3': SimPoint(float(i[0]), float(i[1]), datetime.timedelta(seconds=i[2])),
@@ -70,7 +71,6 @@ class SimElectricity:
             'pf1': SimPoint(float(pf[0]), float(pf[1]), datetime.timedelta(seconds=pf[2])),
             'pf2': SimPoint(float(pf[0]), float(pf[1]), datetime.timedelta(seconds=pf[2])),
             'pf3': SimPoint(float(pf[0]), float(pf[1]), datetime.timedelta(seconds=pf[2])),
-            'f': SimPoint(float(f[0]), float(f[1]), datetime.timedelta(seconds=f[2])),
         }
         self.q_ind = bool(q_ind)
 
@@ -82,6 +82,8 @@ class SimElectricity:
 
         for key, value in self.points.items():
             self.points[key].cycle(delta)
+
+        f = self.points['f'].value
 
         i1 = self.points['i1'].value
         i2 = self.points['i2'].value
@@ -110,15 +112,10 @@ class SimElectricity:
         q = q1 + q2 + q3
 
         out_float = {
+            'f': f,
             'i1': i1,
             'i2': i2,
             'i3': i3,
-            'v1': v1,
-            'v2': v2,
-            'v3': v3,
-            'v12': math.sqrt(math.pow(v1, 2) + math.pow(v2, 2) - 2 * v1 * v2 * math.cos(2.0944)),
-            'v23': math.sqrt(math.pow(v2, 2) + math.pow(v3, 2) - 2 * v2 * v3 * math.cos(2.0944)),
-            'v31': math.sqrt(math.pow(v3, 2) + math.pow(v1, 2) - 2 * v3 * v1 * math.cos(2.0944)),
             'pf1': pf1,
             'pf2': pf2,
             'pf3': pf3,
@@ -130,6 +127,12 @@ class SimElectricity:
             'q2': q2,
             'q3': q3,
             'q': q,
+            'v1': v1,
+            'v2': v2,
+            'v3': v3,
+            'v12': math.sqrt(math.pow(v1, 2) + math.pow(v2, 2) - 2 * v1 * v2 * math.cos(2.0944)),
+            'v23': math.sqrt(math.pow(v2, 2) + math.pow(v3, 2) - 2 * v2 * v3 * math.cos(2.0944)),
+            'v31': math.sqrt(math.pow(v3, 2) + math.pow(v1, 2) - 2 * v3 * v1 * math.cos(2.0944)),
         }
 
         if p > 0:
